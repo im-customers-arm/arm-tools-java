@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
+import java.util.Arrays;
 
 import org.spdx.core.InvalidSPDXAnalysisException;
 import org.spdx.library.model.v2.Annotation;
