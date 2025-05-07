@@ -98,7 +98,13 @@ public class CompareHelper {
 			return "";
 		}
 		List<String> cksumString = checksums.parallelStream()
-				.map(CompareHelper::checksumToString)
+				.map(cksum -> {
+					try {
+						return CompareHelper.checksumToString(cksum);
+					} catch (InvalidSPDXAnalysisException e) {
+						throw new RuntimeException(e);
+					}
+				})
 				.sorted()
 				.collect(Collectors.toList());
 		StringBuilder sb = new StringBuilder(cksumString.get(0));
@@ -121,7 +127,7 @@ public class CompareHelper {
 	 * @return
 	 * @throws InvalidSPDXAnalysisException 
 	 */
-	public static String checksumToString(Checksum checksum) {
+	public static String checksumToString(Checksum checksum) throws InvalidSPDXAnalysisException {
 		return checksumCache.computeIfAbsent(checksum, cksum -> {
 			try {
 				if (checksum == null) {
@@ -146,7 +152,13 @@ public class CompareHelper {
 			return "";
 		}
 		return licenseInfos.parallelStream()
-				.map(AnyLicenseInfo::toString)
+				.map(licenseInfo -> {
+					try {
+						return licenseInfo.toString();
+					} catch (InvalidSPDXAnalysisException e) {
+						throw new RuntimeException(e);
+					}
+				})
 				.collect(Collectors.joining(", "));
 	}
 
@@ -160,7 +172,13 @@ public class CompareHelper {
 			return "";
 		}
 		return annotations.parallelStream()
-				.map(CompareHelper::annotationToString)
+				.map(ann -> {
+					try {
+						return CompareHelper.annotationToString(ann);
+					} catch (InvalidSPDXAnalysisException e) {
+						throw new RuntimeException(e);
+					}
+				})
 				.collect(Collectors.joining("\n"));
 	}
 
@@ -218,7 +236,13 @@ public class CompareHelper {
 			return "";
 		}
 		return relationships.parallelStream()
-				.map(CompareHelper::relationshipToString)
+				.map(rel -> {
+					try {
+						return CompareHelper.relationshipToString(rel);
+					} catch (InvalidSPDXAnalysisException e) {
+						throw new RuntimeException(e);
+					}
+				})
 				.collect(Collectors.joining("\n"));
 	}
 
@@ -227,7 +251,13 @@ public class CompareHelper {
 			return "";
 		}
 		return elements.parallelStream()
-				.map(CompareHelper::formatElement)
+				.map(element -> {
+					try {
+						return CompareHelper.formatElement(element);
+					} catch (InvalidSPDXAnalysisException e) {
+						throw new RuntimeException(e);
+					}
+				})
 				.collect(Collectors.joining(", "));
 	}
 
@@ -270,7 +300,13 @@ public class CompareHelper {
 			return "";
 		}
 		return externalRefs.parallelStream()
-				.map(ref -> externalRefToString(ref, docNamespace))
+				.map(ref -> {
+					try {
+						return CompareHelper.externalRefToString(ref, docNamespace);
+					} catch (InvalidSPDXAnalysisException e) {
+						throw new RuntimeException(e);
+					}
+				})
 				.collect(Collectors.joining("; "));
 	}
 
