@@ -153,11 +153,7 @@ public class CompareHelper {
 		}
 		return licenseInfos.parallelStream()
 				.map(licenseInfo -> {
-					try {
 						return licenseInfo.toString();
-					} catch (InvalidSPDXAnalysisException e) {
-						throw new RuntimeException(e);
-					}
 				})
 				.collect(Collectors.joining(", "));
 	}
